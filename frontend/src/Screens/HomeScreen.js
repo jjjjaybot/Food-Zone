@@ -1,35 +1,32 @@
-import React, {useEffect} from 'react'
-import {Link} from 'react-router-dom'
-import { useDispatch, useSelector } from 'react-redux'
-import {listProducts} from '../actions/productActions'
+import React, { useEffect } from 'react';
 
-export default function HomeScreen(props) {
+import Product from '../components/Product';
+import LoadingBox from '../components/LoadingBox';
+import MessageBox from '../components/MessageBox';
+import { useDispatch, useSelector } from 'react-redux';
+import { listProducts } from '../actions/productActions';
 
-  // const [products, setProduct] = useState([]);
-  const productList = useSelector(state => state.productList);
-  const {products, loading, error} = productList;
+export default function HomeScreen() {
   const dispatch = useDispatch();
+  const productList = useSelector((state) => state.productList);
+  const { loading, error, products } = productList;
 
   useEffect(() => {
-  dispatch(listProducts());    
-    return () => {
-    }
-  }, []);
-
-    return loading ? <div>Loading...</div> : error ? <div>{error}</div> : 
-        <ul className="products">
-      {
-        products.map(product => <li key={product._id}>
-          <div className="product">
-            <img className="product-image" src="/imges/d1.jpg" alt="images"/>
-            <div className="product-name">
-              <Link to={'/product/' + product._id}>{product.name}</Link>
-            </div>
-            <div className="product-brand">{product.brand}</div>
-            <div className="product-price">${product.price}</div>
-            <div className="product-rating">{product.rating} Stars</div>
-          </div>
-        </li>)
-      }
-    </ul>
+    dispatch(listProducts());
+  }, [dispatch]);
+  return (
+    <div>
+      {loading ? (
+        <LoadingBox></LoadingBox>
+      ) : error ? (
+        <MessageBox variant="danger">{error}</MessageBox>
+      ) : (
+        <div className="row center">
+          {products.map((product) => (
+            <Product key={product._id} product={product}></Product>
+          ))}
+        </div>
+      )}
+    </div>
+  );
 }
