@@ -3,7 +3,7 @@ import { useDispatch, useSelector } from 'react-redux';
 import { BrowserRouter, Link, Route } from 'react-router-dom';
 import { signout } from './actions/userActions';
 import CartScreen from './screens/CartScreen';
-import HomeScreen from './screens/homeScreen';
+import HomeScreen from './screens/HomeScreen';
 import OrderScreen from './screens/OrderScreen';
 import PaymentMethodScreen from './screens/PaymentMethodScreen';
 import PlaceOrderScreen from './screens/PlaceOrderScreen';
@@ -29,10 +29,22 @@ function App() {
     dispatch(signout());
   };
   const currentYear = new Date().getFullYear();
+  const openMenu = () => {
+    document.querySelector(".sidebar").classList.add("open");
+  }
+  const closeMenu = () => {
+    document.querySelector(".sidebar").classList.remove("open")
+  }
+
   return (
     <BrowserRouter>
       <div className="grid-container">
         <header className="row">
+        <div className="brand">
+            <button onClick={openMenu}>
+              &#9776;
+        </button>
+        </div>
           <div>
             <Link className="brand" to="/">
               amazona
@@ -90,6 +102,20 @@ function App() {
             )}
           </div>
         </header>
+        <aside className="sidebar">
+          <h3>Categories</h3>
+          <button className="sidebar-close-button" onClick={closeMenu}>x</button>
+          <ul className="categories">
+            <li>
+              <Link to="/category/Pants">Pants</Link>
+            </li>
+
+            <li>
+              <Link to="/category/Shirts">Shirts</Link>
+            </li>
+
+          </ul>
+        </aside>
         <main>
           <Route path="/cart/:id?" component={CartScreen}></Route>
           <Route path="/product/:id" component={ProductScreen} exact></Route>
