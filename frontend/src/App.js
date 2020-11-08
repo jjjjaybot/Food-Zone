@@ -131,6 +131,7 @@ function App() {
           <Route path="/placeorder" component={PlaceOrderScreen}></Route>
           <Route path="/order/:id" component={OrderScreen} />
           <Route path="/orderhistory" component={OrderHistoryScreen}></Route>
+          <Route path="/category/:id" component={HomeScreen} />
           <PrivateRoute
             path="/profile"
             component={ProfileScreen}

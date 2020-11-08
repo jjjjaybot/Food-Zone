@@ -16,36 +16,33 @@ export default function HomeScreen(props) {
 
   useEffect(() => {
     dispatch(listProducts(category));
-  }, [dispatch]);
+  }, [category, dispatch]);
 
   const submitHandler = (e) => {
       e.preventDefault();
+      console.log(searchKeyword);
       dispatch(listProducts(category, searchKeyword, sortOrder));
   };
 
   const sortHandler = (e) => {
       setSortOrder(e.target.value);
-      dispatch(listProducts(category,searchKeyword, sortOrder));
   }
   return (
       <div className="content">
       {category && <h2>{category}</h2>}
       <ul className="filter">
-          <li>
-              <form onSubmit={submitHandler}>
-                  <input name="searchKeyword" onChange={(e) => setSearchKeyword(e.target.value)} type="text"/>
-                  <button type="submit">Search</button>
-              </form>
-          </li>
-          <li>
-            Sort By {' '}
-              <select name="sortOrder" onChange={sortHandler}>
-                  <option value="">Newest</option>
-                  <option value="">Newest</option>
-                  <option value="">Newest</option>
-              </select>
-          </li>
-      </ul>
+      <li>
+        <form onSubmit={submitHandler}>
+          <input name="searchKeyword" onChange={(e) => setSearchKeyword(e.target.value)} />
+          <select name="sortOrder" onChange={sortHandler}>
+          <option value="">Newest</option>
+          <option value="lowest">Lowest</option>
+          <option value="highest">Highest</option>
+        </select>
+          <button type="submit">Search</button>
+        </form>
+      </li>
+    </ul>
     <div>
       {loading ? (
         <LoadingBox></LoadingBox>

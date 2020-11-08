@@ -17,12 +17,16 @@ import {
   PRODUCT_DELETE_SUCCESS,
 } from '../constants/productConstants';
 
-export const listProducts = (searchKeyword = '', sortOrder = '', category = '') => async (dispatch) => {
-  dispatch({
-    type: PRODUCT_LIST_REQUEST,
-  });
+export const listProducts = (category = '', searchKeyword = '',sortOrder = '') => async (dispatch) => {
   try {
-    const { data } = await Axios.get('/api/products?category' + category + '&searchKeyword=' + searchKeyword + '&sortOrder=' + sortOrder);
+    dispatch({
+      type: PRODUCT_LIST_REQUEST,
+    });
+    const { data } = await Axios.get("/api/products?category=" + category +
+      "&searchKeyword=" + searchKeyword + "&sortOrder=" + sortOrder);
+      console.log("Category:" + category );
+      console.log("Search key word:" + searchKeyword);
+      console.log("sortOrder: " + sortOrder);
     dispatch({ type: PRODUCT_LIST_SUCCESS, payload: data });
   } catch (error) {
     dispatch({ type: PRODUCT_LIST_FAIL, payload: error.message });
