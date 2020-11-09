@@ -19,6 +19,25 @@ import ProductListScreen from './screens/ProductListScreen';
 import ProductEditScreen from './screens/ProductEditScreen';
 import OrderListScreen from './screens/OrderListScreen';
 
+import clsx from 'clsx';
+import { makeStyles } from '@material-ui/core/styles';
+import Drawer from '@material-ui/core/Drawer';
+import List from '@material-ui/core/List';
+import ListItem from '@material-ui/core/ListItem';
+import ListItemIcon from '@material-ui/core/ListItemIcon';
+import ListItemText from '@material-ui/core/ListItemText';
+import LocalDrinkIcon from '@material-ui/icons/LocalDrink';
+import FastfoodIcon from '@material-ui/icons/Fastfood';
+
+const useStyles = makeStyles({
+  list: {
+    width: 250,
+  },
+  fullList: {
+    width: 'auto',
+  },
+});
+
 function App() {
   const cart = useSelector((state) => state.cart);
   const { cartItems } = cart;
@@ -28,26 +47,60 @@ function App() {
   const signoutHandler = () => {
     dispatch(signout());
   };
+  const classes = useStyles();
+  const [state, setState] = React.useState({
+    top: false,
+    left: false,
+    bottom: false,
+    right: false,
+  });
+
+  const toggleDrawer = (anchor, open) => (event) => {
+    if (event.type === 'keydown' && (event.key === 'Tab' || event.key === 'Shift')) {
+      return;
+    }
+
+    setState({ ...state, [anchor]: open });
+  };
   const currentYear = new Date().getFullYear();
-  const openMenu = () => {
-    document.querySelector(".sidebar").classList.add("open");
-  }
-  const closeMenu = () => {
-    document.querySelector(".sidebar").classList.remove("open")
-  }
+
+  const list = (anchor) => (
+    <div
+      className={clsx(classes.list, {
+        [classes.fullList]: anchor === 'top' || anchor === 'bottom',
+      })}
+      role="presentation"
+      onClick={toggleDrawer(anchor, false)}
+      onKeyDown={toggleDrawer(anchor, false)}
+    >
+      <List>
+        {['beverage', 'fastfood'].map((text, index) => (
+          <ListItem button key={text}>
+            <ListItemIcon>{index % 2 === 0 ? <LocalDrinkIcon /> : <FastfoodIcon />}</ListItemIcon>
+            <Link to={`/category/${text}`}><ListItemText primary={text} /> </Link>
+          </ListItem>
+        ))}
+      </List>
+    </div>
+  );
 
   return (
     <BrowserRouter>
       <div className="grid-container">
         <header className="row">
         <div className="brand">
-            <button onClick={openMenu}>
-              &#9776;
-        </button>
+        {['left'].map((anchor) => (
+        <React.Fragment key={anchor}>
+        <button onClick={toggleDrawer(anchor, true)}>&#9776;</button>
+          <Drawer anchor={anchor} open={state[anchor]} onClose={toggleDrawer(anchor, false)}>
+            {list(anchor)}
+          </Drawer>
+        </React.Fragment>
+      ))}
         </div>
           <div>
             <Link className="brand" to="/">
-              amazona
+              foodzone
             </Link>
           </div>
           <div>
@@ -102,20 +155,6 @@ function App() {
             )}
           </div>
         </header>
-        <aside className="sidebar">
-          <h3>Categories</h3>
-          <button className="sidebar-close-button" onClick={closeMenu}>x</button>
-          <ul className="categories">
-            <li>
-              <Link to="/category/Pants">Pants</Link>
-            </li>
-
-            <li>
-              <Link to="/category/Shirts">Shirts</Link>
-            </li>
-
-          </ul>
-        </aside>
         <main>
           <Route path="/cart/:id?" component={CartScreen}></Route>
           <Route path="/product/:id" component={ProductScreen} exact></Route>
@@ -147,7 +186,7 @@ function App() {
           <Route path="/" component={HomeScreen} exact></Route>
         </main>
         <footer className="row center">All right reserved © {currentYear}</footer>
-      </div>
+        </div>
     </BrowserRouter>
   );
 }

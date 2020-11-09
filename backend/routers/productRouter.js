@@ -16,10 +16,9 @@ productRouter.get(
       $options: 'i'
     }
   } : {};
-  const sortOrder = req.query.sortOrder ?
-    (req.query.sortOrder === 'lowest' ? { price: 1 } : { price: -1 })
-    :
-    { _id: -1 };
+  const sortOrder = 
+    req.query.sortOrder === 'lowest' ? { price: 1 } : req.query.sortOrder === 'highest' ? { price: -1 } :
+    (req.query.sortOrder === 'newest' ? {_id: -1} : {_id: 1});
   const products = await Product.find({ ...category, ...searchKeyword }).sort(sortOrder); 
     res.send(products);
   })
