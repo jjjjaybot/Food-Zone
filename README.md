@@ -3,8 +3,8 @@
 E-Commerce Website for food!!!
 
 1. Clone repo
-$ git clone git@github.com:basir/amazona.git
-$ cd amazona
+$ git clone https://github.com/JiaziCai/Food-Zone.git
+$ cd Food-Zone
 2. Setup MongoDB
 Local MongoDB
 Install it from here
