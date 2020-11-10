@@ -2,6 +2,8 @@
 
 E-Commerce Website for food!!!
 
+![Food-Zone](/templates/s1.png)
+
 ### 1. Clone repo
 
 ```
