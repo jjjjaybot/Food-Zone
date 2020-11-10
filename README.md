@@ -2,7 +2,19 @@
 
 E-Commerce Website for food!!!
 
+Tech Stack: React, Redux, Node, MongoDB, Material UI, AWS, Heroku, JWT
+
+Functionality: User auth, check out with paypal, add item to cart, admin upload and edit product, see orders, post review, search and sort products.
+
 ![Food-Zone](/templates/s1.png)
+
+![Food-Zone](/templates/s2.png)
+
+![Food-Zone](/templates/s3.png)
+
+![Food-Zone](/templates/s4.png)
+
+![Food-Zone](/templates/s5.png)
 
 ### 1. Clone repo
 
@@ -16,7 +28,7 @@ $ cd amazona
 - Local MongoDB
   - Install it from [here](https://www.mongodb.com/try/download/community)
   - Create .env file in root folder
-  - Set MONGODB_URL=mongodb://localhost/amazona  
+  - Set MONGODB_URL=mongodb://localhost/amazona
 - Atlas Cloud MongoDB
   - Create database at [https://cloud.mongodb.com](https://cloud.mongodb.com)
   - Create .env file in root folder
